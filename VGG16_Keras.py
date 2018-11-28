@@ -13,8 +13,8 @@ def vgg16():
     X = np.load("pixel_data.npy")
     Y = np.load("labels.npy")
 
-    X = X[0:100]
-    Y = Y[0:100]
+    X = X[0:5000]
+    Y = Y[0:5000]
 
     print(Y[0])
 
