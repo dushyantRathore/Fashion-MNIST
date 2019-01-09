@@ -13,8 +13,13 @@ def vgg16():
     X = np.load("pixel_data.npy")
     Y = np.load("labels.npy")
 
-    X = X[0:100]
-    Y = Y[0:100]
+    X = X
+    Y = Y
+
+    print(len(X))
+    print(len(Y))
+    print(X.shape)
+    print(Y.shape)
 
     print(Y[0])
 
@@ -43,30 +48,24 @@ def vgg16():
             Y_final.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
 
     Y_final = np.asarray(Y_final)
-    print("Y final shape")
+    print("Shapes ----- ")
+    
+    print(X.shape)
+    print(X[0].shape)
     print(Y_final.shape)
     print(Y_final[0].shape)
 
-    print(X.shape)
-    print(X[0].shape)
-    print(Y.shape)
-    print(Y[0].shape)
 
-    X = np.dstack([X] * 3)
+    # # Reshape the image into the format accepted by tensorflow
+    # X = X.reshape(-1, 28, 28, 3)
 
-    print(X.shape)
-    print(X[0].shape)
+    # print(X.shape)
+    # print(X[0].shape)
 
-    # Reshape the image into the format accepted by tensorflow
-    X = X.reshape(-1, 28, 28, 3)
-
-    print(X.shape)
-    print(X[0].shape)
-
-    # Resize the images 224*224 as required by VGG16
-    X = np.asarray([img_to_array(array_to_img(im, scale=False).resize((224, 224))) for im in X])
-    print(X.shape)
-    print(X[0].shape)
+    # # Resize the images 224*224 as required by VGG16
+    # X = np.asarray([img_to_array(array_to_img(im, scale=False).resize((224, 224))) for im in X])
+    # print(X.shape)
+    # print(X[0].shape)
 
     model = VGG16(weights='imagenet', include_top=False)
 
@@ -91,7 +90,7 @@ def vgg16():
 
     model.compile(loss='categorical_crossentropy', optimizer="adam", metrics=['accuracy'])
 
-    model.fit(X_train, Y_train, epochs=20, batch_size=128, validation_data=(X_valid, Y_valid))
+    model.fit(X_train, Y_train, epochs=20, validation_data=(X_valid, Y_valid))
 
 
 if __name__ == '__main__':
